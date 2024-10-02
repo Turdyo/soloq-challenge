@@ -16,20 +16,18 @@ export default async function Page() {
     include: { lpUpdate: true }
   })
 
-  const jiahLPC = jiah.reduce((acc, account) => acc + account.LPC! - 2800, 0)
-  const kurnothLPC = kurnoth.reduce((acc, account) => acc + account.LPC! - 2800, 0)
+  const jiahLPC = jiah.reduce(
+    (sum, account) => sum + account.lpUpdate.reduce((prevUpdate, update) => (update.LPC > prevUpdate.LPC ? update : prevUpdate)).LPC - 2800,
+    0
+  )
+  const kurnothLPC = kurnoth.reduce(
+    (sum, account) => sum + account.lpUpdate.reduce((prevUpdate, update) => (update.LPC > prevUpdate.LPC ? update : prevUpdate)).LPC - 2800,
+    0
+  )
   return (
     <main className="mx-auto flex w-fit items-center gap-6 p-10">
-      <TeamCard
-        title={`Team Jiah ${jiahLPC > kurnothLPC ? "👑" : "🤡"}`}
-        description={`${jiahLPC} LP`}
-        accounts={jiah}
-      />
-      <TeamCard
-        title={`Team Kurnoth ${kurnothLPC > jiahLPC ? "👑" : "🤡"}`}
-        description={`${kurnothLPC} LP`}
-        accounts={kurnoth}
-      />
+      <TeamCard title={`Team Jiah ${jiahLPC > kurnothLPC ? "👑" : "🤡"}`} description={`${jiahLPC} LP`} accounts={jiah} />
+      <TeamCard title={`Team Kurnoth ${kurnothLPC > jiahLPC ? "👑" : "🤡"}`} description={`${kurnothLPC} LP`} accounts={kurnoth} />
     </main>
   )
 }
