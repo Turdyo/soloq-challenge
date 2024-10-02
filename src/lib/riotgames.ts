@@ -36,7 +36,10 @@ interface RankedInfoResponse {
 export async function fetchAccountPuuidByName(gameName: string, tagLine: string): Promise<AccountDto> {
   return (
     await fetch(
-      `https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${gameName}/${tagLine}/?api_key=${RIOT_API_KEY}`
+      `https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${gameName}/${tagLine}/?api_key=${RIOT_API_KEY}`,
+      {
+        cache: "no-store"
+      }
     )
   ).json()
 }
@@ -44,12 +47,16 @@ export async function fetchAccountPuuidByName(gameName: string, tagLine: string)
 export async function fetchAccountByPuuid(puuid: string) {
   // Make request to the first endpoint
   const summonerResponse = await (
-    await fetch(`https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${puuid}/?api_key=${RIOT_API_KEY}`)
+    await fetch(`https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${puuid}/?api_key=${RIOT_API_KEY}`, {
+      cache: "no-store"
+    })
   ).json()
 
   // Make request to the second endpoint
   const accountResponse = (await (
-    await fetch(`https://europe.api.riotgames.com/riot/account/v1/accounts/by-puuid/${puuid}?api_key=${RIOT_API_KEY}`)
+    await fetch(`https://europe.api.riotgames.com/riot/account/v1/accounts/by-puuid/${puuid}?api_key=${RIOT_API_KEY}`, {
+      cache: "no-store"
+    })
   ).json()) as AccountDto
 
   // Extract necessary data from responses
@@ -67,6 +74,8 @@ export async function fetchAccountByPuuid(puuid: string) {
 
 export async function fetchRankedInfo(id: string): Promise<RankedInfoResponse[]> {
   return (
-    await fetch(`https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/${id}?api_key=${RIOT_API_KEY}`)
+    await fetch(`https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/${id}?api_key=${RIOT_API_KEY}`, {
+      cache: "no-store"
+    })
   ).json()
 }
