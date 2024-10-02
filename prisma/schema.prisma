@@ -1,0 +1,87 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Player {
+  discordId String @id
+  name      String
+  role      Role
+  team      Team   @default(Jiah)
+
+  account Account[]
+}
+
+model Account {
+  id          String  @id
+  puuid       String?
+  name        String
+  sumonerLvl  Int
+  profileIcon String
+
+  tier   Tier?
+  rank   Rank?
+  LP     Int?  @default(0)
+  wins   Int?  @default(0)
+  losses Int?  @default(0)
+  LPC    Int?  @default(0)
+
+  player          Player     @relation(fields: [playerDiscordId], references: [discordId], onDelete: Cascade)
+  playerDiscordId String
+  lpUpdate        LpUpdate[]
+}
+
+model LpUpdate {
+  id             String   @id @default(cuid())
+  date           DateTime
+  LPC            Int
+  tier           Tier     @default(UNRANKED)
+  rank           Rank
+  LP             Int
+  lastUpdateDiff Int
+
+  account   Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  accountId String
+}
+
+enum Season {
+  S143
+}
+
+enum Tier {
+  UNRANKED
+  IRON
+  BRONZE
+  SILVER
+  GOLD
+  PLATINUM
+  EMERALD
+  DIAMOND
+  MASTER
+  GRANDMASTER
+  CHALLENGER
+}
+
+enum Rank {
+  I
+  II
+  III
+  IV
+}
+
+enum Role {
+  top
+  jungle
+  mid
+  adc
+  support
+}
+
+enum Team {
+  Jiah
+  Kurnoth
+}
