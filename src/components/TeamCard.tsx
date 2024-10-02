@@ -1,12 +1,15 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Account } from "@prisma/client"
+import { Account, Prisma } from "@prisma/client"
 import Image from "next/image"
-import Link from "next/link"
 
 type Props = {
   title: string
   description: string
-  accounts: Account[]
+  accounts: Array<
+    Prisma.AccountGetPayload<{
+      include: { lpUpdate: true }
+    }>
+  >
 }
 
 export function TeamCard({ title, description, accounts }: Props) {
@@ -17,22 +20,24 @@ export function TeamCard({ title, description, accounts }: Props) {
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent>
-        <ol className="flex flex-col gap-1">
+        <ol className="flex w-[600px] flex-col gap-2">
+          <div className="flex w-full items-center justify-between gap-4 text-muted-foreground">
+            <span className="w-[240px]">Comptes</span>
+            <span className="w-[110px]">Elo Actuel</span>
+            <span className="w-[110px]">Peak Elo</span>
+          </div>
           {accounts.map(account => {
             const [gameName, tagLine] = account.name.split("#")
+            const peakLpUpdate = account.lpUpdate.reduce((acc, lpupdate) => (lpupdate.LPC > acc.LPC ? lpupdate : acc))
             return (
-              <li className="flex w-full items-center gap-4 justify-between" key={account.name}>
-                <Link
-                  className="flex gap-4"
-                  target="_blank"
-                  href={`https://op.gg/summoners/euw/${account.name.replace("#", "-")}`}
-                >
+              <li className="flex w-full items-center justify-between gap-4" key={account.name}>
+                <div className="flex w-[240px] gap-4">
                   <Image src={account.profileIcon} width={32} height={32} alt="pp" className="rounded-full" />
                   <span>
                     {gameName} <span className="text-muted-foreground">#{tagLine}</span>
                   </span>
-                </Link>
-                <div className="flex gap-2 items-center">
+                </div>
+                <div className="flex w-[110px] items-center gap-2">
                   <Image
                     src={`https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-shared-components/global/default/${account.tier?.toLowerCase()}.png`}
                     width={30}
@@ -42,6 +47,18 @@ export function TeamCard({ title, description, accounts }: Props) {
                   {account.rank}
                   <span className="ml-auto">
                     {account.LP} <span className="text-muted-foreground">LP</span>
+                  </span>
+                </div>
+                <div className="flex w-[110px] items-center gap-2">
+                  <Image
+                    src={`https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-shared-components/global/default/${peakLpUpdate.tier?.toLowerCase()}.png`}
+                    width={30}
+                    height={30}
+                    alt={peakLpUpdate.tier!}
+                  />
+                  {peakLpUpdate.rank}
+                  <span className="ml-auto">
+                    {peakLpUpdate.LP} <span className="text-muted-foreground">LP</span>
                   </span>
                 </div>
               </li>

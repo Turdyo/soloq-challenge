@@ -2,5 +2,8 @@
   "semi": false,
   "printWidth": 120,
   "arrowParens": "avoid",
-  "trailingComma": "none"
+  "trailingComma": "none",
+  "plugins": [
+    "prettier-plugin-tailwindcss"
+  ]
 }
