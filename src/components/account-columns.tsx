@@ -71,6 +71,25 @@ export const accountColumns: ColumnDef<
     }
   },
   {
+    header: "Winrate",
+    cell: ({ row }) => {
+      const account = row.original
+      const winrate = account.wins && account.losses ? account.wins / (account.losses + account.wins) : 0
+      return (
+        <div className="flex flex-col items-center">
+          <p>
+            {(winrate * 100).toFixed(0)} <span className="text-muted-foreground">%</span>
+          </p>
+          <div className="flex gap-1">
+            <p className="text-[#5383e8] opacity-90">{account.wins}V</p>
+            <p className="text-[#e84057] opacity-90">{account.losses}D</p>
+          </div>
+        </div>
+      )
+    }
+  },
+
+  {
     header: "Streak",
     cell: ({ row }) => {
       const account = row.original
@@ -80,7 +99,7 @@ export const accountColumns: ColumnDef<
             .slice(-7)
             .filter(update => update.lastUpdateDiff !== 0)
             .map(update => (
-              <div className="flex flex-col items-center">
+              <div className="flex flex-col items-center" key={update.id}>
                 {update.lastUpdateDiff > 0 ? <Check size={20} color="#5383e8" /> : <X size={20} color="#e84057" />}
                 <span className={`text-xs text-opacity-80 ${update.lastUpdateDiff > 0 ? "text-[#5383e8]" : "text-[#e84057]"}`}>
                   {Math.abs(update.lastUpdateDiff)}
