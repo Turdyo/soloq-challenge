@@ -41,7 +41,7 @@ export const accountColumns: ColumnDef<
             alt={account.tier!}
           />
           {account.rank}
-          <span className="ml-auto">
+          <span>
             {account.LP} <span className="text-muted-foreground">LP</span>
           </span>
         </div>
@@ -63,7 +63,7 @@ export const accountColumns: ColumnDef<
             alt={peakLpUpdate.tier!}
           />
           {peakLpUpdate.rank}
-          <span className="ml-auto">
+          <span>
             {peakLpUpdate.LP} <span className="text-muted-foreground">LP</span>
           </span>
         </div>
