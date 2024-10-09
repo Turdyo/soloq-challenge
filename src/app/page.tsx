@@ -25,7 +25,7 @@ export default async function Page() {
     0
   )
   return (
-    <main className="mx-auto flex w-fit items-center gap-6 p-10">
+    <main className="mx-auto flex w-fit flex-col items-center gap-10 p-10 xl:flex-row">
       <TeamCard title={`Team Jiah ${jiahLPC > kurnothLPC ? "👑" : "🤡"}`} description={`${jiahLPC} LP`} accounts={jiah} />
       <TeamCard title={`Team Kurnoth ${kurnothLPC > jiahLPC ? "👑" : "🤡"}`} description={`${kurnothLPC} LP`} accounts={kurnoth} />
     </main>
