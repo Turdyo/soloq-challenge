@@ -56,7 +56,7 @@ export const accountColumns: ColumnDef<
       return (
         <div className="flex items-center gap-2 p-1">
           <Image
-            src={`https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-shared-components/global/default/${account.tier?.toLowerCase()}.png`}
+            src={`https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-shared-components/global/default/${peakLpUpdate.tier?.toLowerCase()}.png`}
             width={30}
             height={30}
             alt={peakLpUpdate.tier!}
