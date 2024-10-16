@@ -20,7 +20,7 @@ export const accountColumns: ColumnDef<
       return (
         <Link href={`https://www.op.gg/summoners/euw/${gameName}-${tagLine}`} target="_blank" className="flex items-center gap-4 p-1">
           <Image src={account.profileIcon} width={32} height={32} alt="pp" className="rounded-full" />
-          <span>
+          <span className="text-nowrap">
             {gameName} <span className="text-muted-foreground">#{tagLine}</span>
           </span>
         </Link>
@@ -32,7 +32,7 @@ export const accountColumns: ColumnDef<
     cell: ({ row }) => {
       const account = row.original
       return (
-        <div className="flex items-center gap-2 p-1">
+        <div className="flex items-center gap-2 text-nowrap p-1">
           <Image
             src={`https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-shared-components/global/default/${account.tier?.toLowerCase()}.png`}
             width={30}
@@ -54,7 +54,7 @@ export const accountColumns: ColumnDef<
       const peakLpUpdate = account.lpUpdate.reduce((acc, lpupdate) => (lpupdate.LPC > acc.LPC ? lpupdate : acc))
 
       return (
-        <div className="flex items-center gap-2 p-1">
+        <div className="flex items-center gap-2 text-nowrap p-1">
           <Image
             src={`https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-shared-components/global/default/${peakLpUpdate.tier?.toLowerCase()}.png`}
             width={30}
