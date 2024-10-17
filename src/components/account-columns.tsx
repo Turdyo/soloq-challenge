@@ -2,15 +2,57 @@
 
 import { Prisma } from "@prisma/client"
 import { ColumnDef } from "@tanstack/react-table"
-import { Check, CircleDashedIcon, X } from "lucide-react"
+import { Check, CircleDashedIcon, MoreHorizontal, X } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
+import { Button } from "./ui/button"
 
 export const accountColumns: ColumnDef<
   Prisma.AccountGetPayload<{
     include: { lpUpdate: true }
   }>
 >[] = [
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const account = row.original
+      const [gameName, tagLine] = account.name.split("#")
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start">
+            <DropdownMenuItem>
+              <Link href={`https://www.op.gg/summoners/euw/${gameName}-${tagLine}`} target="_blank" className="w-full">
+                OP.GG
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={`https://www.leagueofgraphs.com/fr/summoner/euw/${gameName}-${tagLine}`} target="_blank" className="w-full">
+                League of Graphs
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={`https://www.deeplol.gg/summoner/euw/${gameName}-${tagLine}`} target="_blank" className="w-full">
+                DeepLOL
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={`https://u.gg/lol/profile/euw1/${gameName}-${tagLine}/overview`} target="_blank" className="w-full">
+                U.GG
+              </Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )
+    }
+  },
   {
     header: "Comptes",
     cell: ({ row }) => {
