@@ -7,6 +7,12 @@ import Image from "next/image"
 import Link from "next/link"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
 import { Button } from "./ui/button"
+import dayjs from "dayjs"
+import relativeTime from "dayjs/plugin/relativeTime"
+import { Tooltip, TooltipContent, TooltipProvider } from "./ui/tooltip"
+import { TooltipTrigger } from "@radix-ui/react-tooltip"
+
+dayjs.extend(relativeTime)
 
 export const accountColumns: ColumnDef<
   Prisma.AccountGetPayload<{
@@ -142,22 +148,29 @@ export const accountColumns: ColumnDef<
             .map(update => {
               const isDodge = Math.abs(update.lastUpdateDiff) === 5
               return (
-                <div className="flex flex-col items-center" key={update.id}>
-                  {isDodge ? (
-                    <div className="flex size-5 items-center justify-center">
-                      <CircleDashedIcon size={18} color="#eab308" className="opacity-60" />
-                    </div>
-                  ) : update.lastUpdateDiff > 0 ? (
-                    <Check size={20} color="#5383e8" />
-                  ) : (
-                    <X size={20} color="#e84057" />
-                  )}
-                  <span
-                    className={`text-xs text-opacity-80 ${isDodge ? "text-yellow-500/60" : update.lastUpdateDiff > 0 ? "text-[#5383e8]" : "text-[#e84057]"}`}
-                  >
-                    {Math.abs(update.lastUpdateDiff)}
-                  </span>
-                </div>
+                <TooltipProvider key={update.id} delayDuration={50}>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <div className="flex flex-col items-center">
+                        {isDodge ? (
+                          <div className="flex size-5 items-center justify-center">
+                            <CircleDashedIcon size={18} color="#eab308" className="opacity-60" />
+                          </div>
+                        ) : update.lastUpdateDiff > 0 ? (
+                          <Check size={20} color="#5383e8" />
+                        ) : (
+                          <X size={20} color="#e84057" />
+                        )}
+                        <span
+                          className={`text-xs text-opacity-80 ${isDodge ? "text-yellow-500/60" : update.lastUpdateDiff > 0 ? "text-[#5383e8]" : "text-[#e84057]"}`}
+                        >
+                          {Math.abs(update.lastUpdateDiff)}
+                        </span>
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent>{dayjs(update.date).fromNow()}</TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               )
             })}
         </div>
