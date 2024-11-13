@@ -87,7 +87,7 @@ export const accountColumns: ColumnDef<
             height={30}
             alt={account.tier!}
           />
-          {account.rank}
+          {account.tier !== "MASTER" && account.tier !== "CHALLENGER" && account.tier !== "GRANDMASTER" && account.rank}
           <span>
             {account.LP} <span className="text-muted-foreground">LP</span>
           </span>
@@ -109,7 +109,7 @@ export const accountColumns: ColumnDef<
             height={30}
             alt={peakLpUpdate.tier!}
           />
-          {peakLpUpdate.rank}
+          {peakLpUpdate.tier !== "MASTER" && peakLpUpdate.tier !== "CHALLENGER" && peakLpUpdate.tier !== "GRANDMASTER" && peakLpUpdate.rank}
           <span>
             {peakLpUpdate.LP} <span className="text-muted-foreground">LP</span>
           </span>
