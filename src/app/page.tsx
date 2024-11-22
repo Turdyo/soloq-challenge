@@ -1,3 +1,4 @@
+import { Countdown } from "@/components/Countdown"
 import { TeamCard } from "@/components/TeamCard"
 import db from "@/lib/prisma"
 
@@ -25,9 +26,12 @@ export default async function Page() {
     0
   )
   return (
-    <main className="mx-auto flex w-fit flex-col items-center gap-10 p-10 xl:flex-row">
-      <TeamCard title={`Team Jiah ${jiahLPC > kurnothLPC ? "👑" : "🤡"}`} description={`${jiahLPC} LP`} accounts={jiah} />
-      <TeamCard title={`Team Kurnoth ${kurnothLPC > jiahLPC ? "👑" : "🤡"}`} description={`${kurnothLPC} LP`} accounts={kurnoth} />
-    </main>
+    <div className="mt-5 flex flex-col items-center">
+      <Countdown />
+      <main className="mx-auto flex w-fit flex-col items-center gap-10 p-10 xl:flex-row">
+        <TeamCard title={`Team Jiah ${jiahLPC > kurnothLPC ? "👑" : "🤡"}`} description={`${jiahLPC} LP`} accounts={jiah} />
+        <TeamCard title={`Team Kurnoth ${kurnothLPC > jiahLPC ? "👑" : "🤡"}`} description={`${kurnothLPC} LP`} accounts={kurnoth} />
+      </main>
+    </div>
   )
 }
